@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({

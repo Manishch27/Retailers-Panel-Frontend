@@ -1,5 +1,5 @@
 // client/src/reducers/authReducer.js
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT} from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token') || null,
@@ -10,9 +10,9 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+    console.log(action.type);
     switch (action.type) {
         case LOGIN_SUCCESS:
-        case REGISTER_SUCCESS:
             return {
                 ...state,
                 token: action.payload.token, // Assuming the token is included in the payload
@@ -23,7 +23,6 @@ export default function (state = initialState, action) {
                 error: null
             };
         case LOGIN_FAIL:
-        case REGISTER_FAIL:
         case LOGOUT:
             return {
                 ...state,

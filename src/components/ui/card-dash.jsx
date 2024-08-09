@@ -3,19 +3,17 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import {
     Card,
-    CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 
-export function CardWithForm({ title, desc, className }) {
+export function CardWithForm({ title, desc, className}) {
     return (
         <Card className="w-[350px]">
-            <CardHeader>
+            <CardHeader className= "flex flex-col w-full">
                 <CardTitle className={className}>{title}</CardTitle>
                 <CardDescription>{`${`${title === "Balance" ? ' ₹ ' + desc : desc} `}`}</CardDescription>
             </CardHeader>

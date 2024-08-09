@@ -2,9 +2,19 @@
 import axios from 'axios';
 import { GET_APPLICATIONS, CREATE_APPLICATION, UPDATE_APPLICATION_STATUS } from './types';
 
-export const getApplications = () => async dispatch => {
+export const getApplications = (retailerId) => async dispatch => {
     try {
-        const res = await axios.get('/applications');
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            params: {
+                retailerId: retailerId
+            }
+        };
+        const res = await axios.get('/applications', config);
         dispatch({ type: GET_APPLICATIONS, payload: res.data });
     } catch (error) {
         console.error(error);

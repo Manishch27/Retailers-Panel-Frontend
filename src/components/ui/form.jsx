@@ -24,8 +24,8 @@ export function Form() {
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-3 gap-x-16 gap-y-8">
         <div className="grid gap-2">
-          <Label htmlFor="fullname">Full Name</Label>
-          <Input id="fullname"  type="email" placeholder="Full Name" required />
+          <Label htmlFor="name">Full Name</Label>
+          <Input id="name"  type="email" placeholder="Full Name" required />
         </div>
 
         <div className="grid gap-2">
