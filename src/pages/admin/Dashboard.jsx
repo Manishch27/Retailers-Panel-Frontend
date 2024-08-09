@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { CardWithForm } from "@/components/ui/card-dash";
 
-import { useParams } from 'react-router-dom';
-
 import {
   Table,
   TableBody,
@@ -25,8 +23,9 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  //  fetchRetailers from the endpoint 
   useEffect(() => {
-    //  fetchRetailers
+    
     const fetchRetailers = async () => {
       try {
         const token = localStorage.getItem('token'); // Get the token from localStorage
@@ -96,6 +95,12 @@ const AdminDashboard = () => {
     return <div>Error loading retailers: {error}</div>;
   }
 
+  const handleView = (id) => () => {
+    navigate(`/dashboard/retailer/${
+      id
+    }`);
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <h1 className="text-xl font-semibold md:text-2xl">Dashbord CSC Update</h1>
@@ -117,12 +122,12 @@ const AdminDashboard = () => {
   </TableHeader>
   <TableBody>
     {retailers.map((retailer, index) => (
-      <TableRow key={retailer.id}>
+      <TableRow key={retailer._id}>
         <TableCell>{index + 1}</TableCell>
         <TableCell>{retailer.name}</TableCell>
         <TableCell className="text-right">{retailer.tokens}</TableCell>
         <TableCell className="text-right">
-          <button className="text-blue-600">View</button>
+          <button className="text-blue-600" onClick={handleView(retailer._id)}>View</button>
         </TableCell>
       </TableRow>
     ))}

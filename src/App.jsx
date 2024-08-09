@@ -1,10 +1,12 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import ProtectedRoutes from "./utils/protectedRoutes";
 import RoleBasedElement from "./utils/roleBasedElements";
+import RedirectIfAuthenticated from "./utils/redirectIfAuthenticated";
  
 // Admin Components
 import AdminDashboard from "./pages/admin/Dashboard";
 import AddRetailers from "./pages/admin/AddRetailers";
+import AdminRetailer from "./pages/admin/Retailer";
 
 // Retailer Components
 import RetailerDashboard from "./pages/retailer/Dashboard";
@@ -49,11 +51,23 @@ const router = createBrowserRouter([
           />
         ),
       },
+
+      {
+        path: "retailer/:id",
+        element: (
+          <RoleBasedElement
+            adminComponent={<AdminRetailer />}
+            retailerComponent={<Navigate to="/dashboard/home" />} // Redirect retailers away from this route
+          />
+        ),
+      }
     ],
   },
   {
+
     path: "/",
-    element: <LoginForm />,
+    element: <RedirectIfAuthenticated element={<LoginForm />} />,
+
   },
   {
     path: "/unauthorized",
