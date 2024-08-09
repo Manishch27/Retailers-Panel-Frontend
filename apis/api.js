@@ -28,7 +28,7 @@ export const user = {
 
     updateToken: {
         method: 'put',
-        url: 'http://localhost:8001/api/v1/users/:id/token'
+        url: 'http://localhost:8001/api/v1/users'
     }
 };
 
@@ -46,7 +46,7 @@ export const application = {
 
     getRetailersAppliactions: {
         method: 'get',
-        url: 'http://localhost:8001/api/v1/applications/retailer/:id',
+        url: 'http://localhost:8001/api/v1/applications/retailer',
     },
 
     createApplication: {
