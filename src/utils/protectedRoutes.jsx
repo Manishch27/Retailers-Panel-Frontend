@@ -1,26 +1,24 @@
+import { useSelector } from "react-redux";
+import { Navigate, useLocation, Outlet } from "react-router-dom";
+import DashboardPanel from "../layouts/Admin-panel";
 
-import { useSelector } from "react-redux"
-import { Navigate, useLocation } from "react-router-dom";
+const ProtectedRoutes = () => {
+  const { token, isAdmin, loading } = useSelector((state) => state.auth);
+  const location = useLocation();
 
-const ProtectedRoutes = ({ element, requiredAdmin }) => {
-    const { token, isAdmin, loading} = useSelector(state => state.auth);
-    const location = useLocation();
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while verifying the token
+  }
 
-    console.log("user is = ",loading);
+  if (!token) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
 
-    if (loading) {
-        return <div>Loading...</div>; // Show a loading indicator while verifying the token
-    }
-
-    if (!token) {
-        return <Navigate to="/" state={{ from: location }} replace />;
-    }
-
-    if (requiredAdmin && !isAdmin) {
-        return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-    }
-
-    return element;
+  return (
+    <DashboardPanel role={isAdmin ? "admin" : "retailer"}>
+      <Outlet />
+    </DashboardPanel>
+  );
 };
 
 export default ProtectedRoutes;

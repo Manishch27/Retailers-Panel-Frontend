@@ -1,6 +1,6 @@
 import { CardWithForm } from "@/components/ui/card-dash";
 
-const Dashboard = () =>{
+const RetailerDashboard = () =>{
     return(
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           <h1 className="text-xl font-semibold md:text-2xl">Dashbord CSC Update</h1>
@@ -21,4 +21,4 @@ const Dashboard = () =>{
     )
 }
 
-export default Dashboard;
+export default RetailerDashboard;

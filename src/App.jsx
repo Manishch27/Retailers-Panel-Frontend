@@ -1,66 +1,75 @@
-import AdminPanel from "./layouts/Admin-panel.jsx";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import ProtectedRoutes from "./utils/protectedRoutes";
+import RoleBasedElement from "./utils/roleBasedElements";
+ 
+// Admin Components
+import AdminDashboard from "./pages/admin/Dashboard";
+import AddRetailers from "./pages/admin/AddRetailers";
+
+// Retailer Components
+import RetailerDashboard from "./pages/retailer/Dashboard";
+import UpdateNumber from "./pages/retailer/updateNumber";
+
+// Other Components
 import LoginForm from "./components/ui/login";
-import Dashboard from "./pages/Dashboard.jsx";
-import UpdateNumber from "./pages/updateNumber.jsx";
-import { login } from "./actions/authActions.js";
-import ProtectedRoutes from "./utils/protectedRoutes.jsx";
-import RedirectIfAuthenticated from "./utils/redirectIfAuthenticated.jsx";
-import { useDispatch } from 'react-redux';
-import { loadUser } from './actions/authActions';
-import { useEffect } from 'react';
-import Unauthorized from "./pages/unauthorized.jsx";
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-
-
-{console.log(`your login status is`,login)}
+import Unauthorized from "./pages/unauthorized";
+import { useEffect } from "react";
+import { loadUser } from "./actions/authActions";
+import { useDispatch } from "react-redux";
 
 const router = createBrowserRouter([
   {
     path: "dashboard",
-    element: <ProtectedRoutes element = {<AdminPanel/>} requiredAdmin={true}/>,
+    element: <ProtectedRoutes />,
     children: [
       {
         path: "home",
-        element: <Dashboard/>
+        element: (
+          <RoleBasedElement
+            adminComponent={<AdminDashboard />}
+            retailerComponent={<RetailerDashboard />}
+          />
+        ),
       },
-
       {
-        path: "update-number",
-        element: <UpdateNumber/>
-      }
-    ]
+        path: "add-retailers",
+        element: (
+          <RoleBasedElement
+            adminComponent={<AddRetailers />}
+            retailerComponent={<Navigate to="/dashboard/home" />} // Redirect retailers away from this route
+          />
+        ),
+      },
+      {
+        path: "update-numbers",
+        element: (
+          <RoleBasedElement
+            adminComponent={<Navigate to="/dashboard/home" />} // Redirect admins away from this route
+            retailerComponent={<UpdateNumber/>}
+          />
+        ),
+      },
+    ],
   },
-
-    {
-      path: "/",
-      element: <RedirectIfAuthenticated element={<LoginForm />} />
-    },
-
+  {
+    path: "/",
+    element: <LoginForm />,
+  },
   {
     path: "/unauthorized",
-    element:<Unauthorized/>
-  }
+    element: <Unauthorized />,
+  },
 ]);
 
-const App = () =>{
+function App() {
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
 
-useEffect(() => {
-  dispatch(loadUser());
-}, [dispatch]);
-
-
-
-  return (
-    <div>
-      <RouterProvider router={router}/>
-        </div>
-  )
+  return <RouterProvider router={router} />;
 }
 
 export default App;
