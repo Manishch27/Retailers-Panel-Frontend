@@ -104,7 +104,7 @@ const AddRetailer = () => {
             {registerError && <p style={{ color: 'red' }}>{registerError}</p>}
           </CardContent>
           <CardFooter className="flex justify-center w-full mt-8">
-            <Button className="w-1/2" type="submit">Register</Button>
+          <Button className="w-1/2" type="submit">Submit</Button>
           </CardFooter>
         </Card>
       </form>
