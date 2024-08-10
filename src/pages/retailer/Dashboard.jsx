@@ -51,8 +51,9 @@ const RetailerDashboard = () =>{
         const res = await axios.get(user.getAllRetailers.url, config); // Replace with your actual API endpoint
         res.data.forEach((retailer) => {
           if (retailer._id === id) {
+            console.log("retialer", retailer)
             setRetailer(retailer);
-            console.log(retailer)
+            
           }
         })
         setLoading(false);
@@ -140,26 +141,7 @@ const RetailerDashboard = () =>{
             <TableHead className="text-right">Status</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {Applications.map((Application, index) => (
-            <TableRow key={Application._id}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>{Application.fullName}</TableCell>
-              <TableCell className="text-right">{Application.aadhaarNo}</TableCell>
-              <TableCell className="text-right">
-                {Application.mobileNo}
-              </TableCell>
 
-              <TableCell className="text-right flex gap-5">
-                {Application.fingerprints.map((elem, i) => {
-                  return <Link key={elem._id} to={`${elem.url}`} className="text-blue-600">Image {i + 1}</Link>
-                })}
-              </TableCell>
-
-              <TableCell className="text-right"> {Application.status} </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
       </Table>
       </main>
     )

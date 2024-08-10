@@ -42,6 +42,7 @@ const AdminDashboard = () => {
 
         const res = await axios.get(user.getAllRetailers.url, config); // Replace with your actual API endpoint
         setRetailers(res.data);// Assuming res.data is an array of retailers
+        console.log("retailers", res.data)
         setLoading(false);
       } catch (err) {
         if (err.response && err.response.status === 401) {

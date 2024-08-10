@@ -59,6 +59,7 @@ const AdminRetailer = () => {
 
         const res = await axios.get(user.getAllRetailers.url, config); // Replace with your actual API endpoint
         res.data.forEach((retailer) => {
+          console.log(retailer)
           if (retailer._id === id) {
             setRetailers(retailer);
           }
