@@ -191,7 +191,7 @@ export function Form() {
 
           </div>
 
-          <div className="grid grid-cols-5 gap-4 justify-center items-center">
+          <div className="grid grid-cols-5 gap-4 justify-center items-center mt-10">
               {fingerprints.map((fingerprint, index) => (
                 <Card key={index}>
                   <CardContent className="mt-5 flex flex-col justify-center items-center gap-4">
