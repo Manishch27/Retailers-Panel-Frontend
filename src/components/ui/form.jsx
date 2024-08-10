@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import image from "../../assets/sd.webp";
+import { useForm } from "react-hook-form";
 
 import {
   Card,
@@ -15,6 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
 
+
 export function Form() {
   return (
     <Card className="w-full">
@@ -24,7 +26,7 @@ export function Form() {
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-3 gap-x-16 gap-y-8">
         <div className="grid gap-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name">Full Name*</Label>
           <Input id="name"  type="email" placeholder="Full Name" required />
         </div>
 
@@ -44,18 +46,18 @@ export function Form() {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="Aadhaar">Aadhaar No.</Label>
+          <Label htmlFor="Aadhaar">Aadhaar No.*</Label>
           <Input id="Aadhaar" type="gender" placeholder="" required />
         </div>
 
 
         <div className="grid gap-2">
-          <Label htmlFor="phone">Mobile No.</Label>
+          <Label htmlFor="phone">Mobile No.*</Label>
           <Input id="phone" type="gender" placeholder="" required />
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="phone">Email Id (optional)</Label>
+          <Label htmlFor="phone">Email Id</Label>
           <Input id="phone" type="gender" placeholder=""/>
         </div>
 

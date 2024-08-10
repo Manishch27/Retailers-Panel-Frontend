@@ -10,12 +10,17 @@ export const login = (username, password) => async dispatch => {
         // Save token and admin status to localStorage
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('isAdmin', JSON.stringify(res.data.admin)); // Save admin status as a JSON string
+        localStorage.setItem('id', res.data.id);
+        localStorage.setItem('username', res.data.name);
+        console.log(res);
 
         dispatch({
             type: LOGIN_SUCCESS,
             payload: {
                 token: res.data.token,
-                admin: res.data.admin
+                admin: res.data.admin,
+                id: res.data.id,
+                username: res.data.name
             }
         });
     } catch (error) {
@@ -28,6 +33,8 @@ export const logout = () => dispatch => {
     // Remove token and other related data from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('id');
+    localStorage.removeItem('username');
     dispatch({ type: LOGOUT });
 };
 

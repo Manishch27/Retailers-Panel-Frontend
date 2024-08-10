@@ -20,6 +20,8 @@ const DashboardPanel = ({ role }) => {
   };
 
   const isAdmin = role === "admin";
+  
+  const username = localStorage.getItem('username');
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -103,7 +105,7 @@ const DashboardPanel = ({ role }) => {
             </form>
           </div>
           <DropdownMenu>
-            <p>Manish Chaudhary</p>
+            <p>{username}</p>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <CircleUser className="h-5 w-5" />

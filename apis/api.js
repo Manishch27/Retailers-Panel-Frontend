@@ -41,7 +41,7 @@ export const application = {
 
     updateApplicationStatus: {
         method: 'put',
-        url: 'http://localhost:8001/api/v1/applications/:id',
+        url: 'http://localhost:8001/api/v1/applications',
     },
 
     getRetailersAppliactions: {
