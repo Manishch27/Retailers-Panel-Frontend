@@ -54,7 +54,7 @@ const AddRetailer = () => {
       setSuccessMessage('Retailer created successfully');
     } catch (error) {
       if (error.response && error.response.data) {
-        setRegisterError(error.response.data.message || 'Registrationed');
+        setRegisterError(error.response.data.message || 'Registration failed');
       } else {
         setRegisterError('Registration failed');
       }
