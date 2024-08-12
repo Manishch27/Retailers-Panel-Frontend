@@ -69,7 +69,7 @@ const AddRetailer = () => {
   return (
     <>
       <form className="flex flex-col items-center justify-center min-h-screen" onSubmit={handleSubmit(onSubmit)}>
-        <CardTitle className="text-5xl mb-24">Create a Retailer!</CardTitle>
+        <CardTitle className="text-5xl mb-24">Create a Retailer😊</CardTitle>
         <Card className="w-full max-w-lg pt-5">
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
