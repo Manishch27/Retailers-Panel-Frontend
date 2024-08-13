@@ -52,5 +52,10 @@ export const application = {
     createApplication: {
         method: 'post',
         url: '/api/v1/applications/',
-    }
+    },
+
+    getApplication: {
+        method: 'get',
+        url: '/api/v1/applications/',
+    },
 };

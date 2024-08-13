@@ -280,6 +280,7 @@ const AdminRetailer = () => {
             <TableHead className="text-right">Aadhaar No.</TableHead>
             <TableHead className="text-right">Mobile No.</TableHead>
             <TableHead className="text-right">Fingerprints</TableHead>
+            <TableHead className="text-right"></TableHead>
             <TableHead className="text-right">Update Status</TableHead>
           </TableRow>
         </TableHeader>
@@ -295,6 +296,11 @@ const AdminRetailer = () => {
                   <Link key={elem._id} to={`${elem.url}`} className="text-blue-600">Image {i + 1}</Link>
                 ))}
               </TableCell>
+
+              <TableCell className="text-right">
+                <Link to={`/dashboard/download-images/${app._id}`} className="text-blue-600">GetImages</Link>
+                </TableCell>
+
 
               <TableCell className="text-right">
                 <Select value={statusMap[app._id] || 'pending'} onValueChange={(value) => handleStatusChange(app._id, value)}>

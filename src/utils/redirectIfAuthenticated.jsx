@@ -5,7 +5,7 @@ const RedirectIfAuthenticated = ({ element }) => {
     const token = useSelector(state => state.auth.token);
 
     if (token) {
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/dashboard/home" replace />;
     }
 
     return element;

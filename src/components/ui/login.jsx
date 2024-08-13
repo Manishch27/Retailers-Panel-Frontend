@@ -30,7 +30,7 @@ const LoginForm = () => {
     const { username, password } = data;
     try {
       await dispatch(login(username, password));
-      navigate('/dashboard');
+      navigate('/dashboard/home');
     } catch (error) {
       setLoginError(error.message || 'Login failed'); // Display error message
     }

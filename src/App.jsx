@@ -2,11 +2,12 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import ProtectedRoutes from "./utils/protectedRoutes";
 import RoleBasedElement from "./utils/roleBasedElements";
 import RedirectIfAuthenticated from "./utils/redirectIfAuthenticated";
- 
+
 // Admin Components
 import AdminDashboard from "./pages/admin/Dashboard";
 import AddRetailers from "./pages/admin/AddRetailers";
 import AdminRetailer from "./pages/admin/Retailer";
+import DownloadImages from "./pages/admin/DownloadImages";
 
 // Retailer Components
 import RetailerDashboard from "./pages/retailer/Dashboard";
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
         element: (
           <RoleBasedElement
             adminComponent={<Navigate to="/dashboard/home" />} // Redirect admins away from this route
-            retailerComponent={<UpdateNumber/>}
+            retailerComponent={<UpdateNumber />}
           />
         ),
       },
@@ -60,6 +61,16 @@ const router = createBrowserRouter([
             retailerComponent={<Navigate to="/dashboard/home" />} // Redirect retailers away from this route
           />
         ),
+      },
+
+      {
+        path: "download-images/:id",
+        element: (
+          <RoleBasedElement
+            adminComponent={<DownloadImages />}
+            retailerComponent={<Navigate to="/dashboard/home" />} // Redirect retailers away from this route
+          />
+        )
       }
     ],
   },
