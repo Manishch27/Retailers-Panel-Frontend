@@ -5,6 +5,9 @@ import axios from 'axios';
 import { application, user } from '../../../apis/api';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { Button } from '@/components/ui/button';
 
 // shadcn imports
 import {
@@ -108,6 +111,7 @@ const AdminRetailer = () => {
     fetchApplications();
   }, [id]);
 
+  // Function to add tokens to the retailer's account
   const tokenSubmit = async (data) => {
     let { tokens } = data;
     tokens = Number(tokens);
@@ -137,6 +141,8 @@ const AdminRetailer = () => {
     }
   };
 
+  // Function to update the status of an application
+
   const handleStatusChange = async (appId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
@@ -163,6 +169,83 @@ const AdminRetailer = () => {
     }
   };
 
+  // Function to export retalailers application data in the excel file
+
+  const exportData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found, please log in again');
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+  
+      const res = await axios.get(`${application.getRetailersAppliactions.url}/${id}`, config);
+      const data = res.data.map((app) => {
+        // Prepare an object with a fixed number of fingerprint columns
+        const fingerprints = {};
+        app.fingerprints.forEach((fingerprint, index) => {
+          fingerprints[`Fingerprint ${index + 1}`] = {
+            text: `Image ${index + 1}`,
+            hyperlink: fingerprint.url,
+          };
+        });
+  
+        return {
+          'Full Name': app.fullName,
+          'Father Name': app.fatherName,
+          'Aadhaar No.': app.aadhaarNo,
+          'Mobile No.': app.mobileNo,
+          'Status': app.status,
+          ...fingerprints,
+        };
+      });
+  
+      // Convert data to worksheet
+      const ws = XLSX.utils.json_to_sheet(data, {
+        header: [
+          'Full Name', 'Father Name', 'Aadhaar No.', 'Mobile No.', 'Status',
+          'Fingerprint 1', 'Fingerprint 2', 'Fingerprint 3', 'Fingerprint 4', 'Fingerprint 5'
+        ],
+      });
+  
+      // Add hyperlinks to the worksheet
+      data.forEach((row, rowIndex) => {
+        Object.keys(row).forEach((key, colIndex) => {
+          if (row[key].hyperlink) {
+            const cellAddress = XLSX.utils.encode_cell({ r: rowIndex + 1, c: colIndex });
+            ws[cellAddress] = {
+              t: 's',
+              v: row[key].text, // Display text
+              l: { Target: row[key].hyperlink, Tooltip: row[key].text }, // Hyperlink and Tooltip
+            };
+          }
+        });
+      });
+  
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+  
+      const s2ab = (s) => {
+        const buf = new ArrayBuffer(s.length);
+        const view = new Uint8Array(buf);
+        for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+        return buf;
+      };
+  
+      saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), 'retailer-applications.xlsx');
+    } catch (error) {
+      console.error('Error exporting data:', error.response?.data || error.message);
+      alert(`Error exporting data: ${error.response?.data?.message || error.message}`);
+    }
+  };
+
+
   if (loading) {
     return (
       <div role="status" className='flex justify-center items-center h-full'>
@@ -183,6 +266,10 @@ const AdminRetailer = () => {
           <CardWithForm title={"Total Tokens"} desc={retailers.tokens} />
           <CardWithForm title={"Add Tokens"} tokenSubmit={tokenSubmit} />
         </div>
+      </div>
+
+      <div className="flex justify-end mt-24">
+        <Button onClick={exportData} className="btn btn-primary">Export Data</Button>
       </div>
 
       <Table>
@@ -208,6 +295,7 @@ const AdminRetailer = () => {
                   <Link key={elem._id} to={`${elem.url}`} className="text-blue-600">Image {i + 1}</Link>
                 ))}
               </TableCell>
+
               <TableCell className="text-right">
                 <Select value={statusMap[app._id] || 'pending'} onValueChange={(value) => handleStatusChange(app._id, value)}>
                   <SelectTrigger className="w-[180px]">
