@@ -19,6 +19,7 @@ import Unauthorized from "./pages/unauthorized";
 import { useEffect } from "react";
 import { loadUser } from "./actions/authActions";
 import { useDispatch } from "react-redux";
+import { initializeAutoLogout } from './actions/authActions';
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,15 @@ const router = createBrowserRouter([
 function App() {
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    initializeAutoLogout(dispatch); // Initialize auto logout
+
+    // Clean up event listeners on component unmount
+    return () => {
+      // Ensure to clean up listeners if needed
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadUser());
